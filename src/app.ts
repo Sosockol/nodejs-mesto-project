@@ -1,17 +1,34 @@
 import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { logger } from '@config';
-import { errorHandler, notFoundHandler, requestLogger } from '@middleware';
+import helmet from 'helmet';
+import cors from 'cors';
+import { logger, helmetConfig, corsConfig } from '@config';
+import { errorHandler, notFoundHandler, requestLogger, generalLimiter, securityLogger, browserCheck } from '@middleware';
 import routes from '@routes';
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
-// Middleware для парсинга JSON
-app.use(express.json());
+// Middleware для безопасности (helmet)
+app.use(helmet(helmetConfig));
+
+// Настройка CORS
+app.use(cors(corsConfig));
+
+// Проверка браузера
+app.use(browserCheck);
+
+// Middleware для ограничения скорости запросов
+app.use(generalLimiter);
+
+// Middleware для парсинга JSON с ограничением размера
+app.use(express.json({ limit: '10mb' }));
 
 // Middleware для логирования запросов
 app.use(requestLogger);
+
+// Middleware для логирования событий безопасности
+app.use(securityLogger);
 
 // Подключение к MongoDB
 mongoose.connect('mongodb://localhost:27017/mestodb')
