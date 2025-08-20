@@ -1,9 +1,36 @@
 import { Request, Response, NextFunction } from 'express';
-import logger from '../utils/logger';
-import { AppError } from '../errors';
+import { isCelebrateError } from 'celebrate';
+import { logger } from '@config';
+import { AppError } from '@errors';
 
 // Middleware для обработки ошибок
 export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
+  // Обработка ошибок валидации celebrate
+  if (isCelebrateError(err)) {
+    const errorBody = err.details.get('body');
+    const errorParams = err.details.get('params');
+    const errorQuery = err.details.get('query');
+
+    let validationMessage = 'Переданы некорректные данные';
+
+    if (errorBody) {
+      validationMessage = errorBody.details[0].message;
+    } else if (errorParams) {
+      validationMessage = errorParams.details[0].message;
+    } else if (errorQuery) {
+      validationMessage = errorQuery.details[0].message;
+    }
+
+    logger.warn('Validation error:', {
+      error: validationMessage,
+      url: req.url,
+      method: req.method,
+      body: req.body
+    });
+
+    return res.status(400).json({ message: validationMessage });
+  }
+
   // Логируем ошибку
   if (err instanceof AppError) {
     // Операционные ошибки - логируем как warning или info

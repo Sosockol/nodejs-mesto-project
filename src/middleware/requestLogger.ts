@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import logger from '../utils/logger';
+import { logger } from '@config';
 
 // Middleware для логирования запросов
 export const requestLogger = (req: Request, res: Response, next: NextFunction) => {

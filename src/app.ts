@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import logger from './utils/logger';
-import { errorHandler, notFoundHandler, requestLogger } from './middleware';
+import { logger } from '@config';
+import { errorHandler, notFoundHandler, requestLogger } from '@middleware';
+import routes from '@routes';
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -20,6 +21,9 @@ mongoose.connect('mongodb://localhost:27017/mestodb')
   .catch((err: Error) => {
     logger.error('Error connecting to MongoDB:', err);
   });
+
+// Подключение роутов
+app.use(routes);
 
 // Базовый маршрут
 app.get('/', (req: Request, res: Response) => {

@@ -1,10 +1,29 @@
 {
   "compilerOptions": {
     /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-    "target": "es6",                                  
+    "target": "es6",
     /* Modules */
     "module": "commonjs",                                /* Specify what module code is generated. */
     "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"],
+      "@config/*": ["./config/*"],
+      "@config": ["./config/index"],
+      "@controllers/*": ["./controllers/*"],
+      "@controllers": ["./controllers/index"],
+      "@models/*": ["./models/*"],
+      "@models": ["./models/index"],
+      "@middleware/*": ["./middleware/*"],
+      "@middleware": ["./middleware/index"],
+      "@errors/*": ["./errors/*"],
+      "@errors": ["./errors/index"],
+      "@routes/*": ["./routes/*"],
+      "@routes": ["./routes/index"],
+      "@utils/*": ["./utils/*"],
+      "@utils": ["./utils/index"],
+      "@validation/*": ["./validation/*"],
+      "@validation": ["./validation/index"]
+    },
     "moduleResolution": "node",                       /* Specify how TypeScript looks up a file from a given module specifier. */
     /* JavaScript Support */
     "allowJs": true,                                  /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
@@ -22,5 +41,5 @@
   ],
   "exclude": [
     "node_modules"
-  ],
+  ]
 }
