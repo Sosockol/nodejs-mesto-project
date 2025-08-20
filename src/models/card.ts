@@ -17,18 +17,24 @@ const cardSchema = new Schema<ICard>({
   },
   link: {
     type: String,
-    required: true
+    required: true,
+    validate: {
+      validator: function(v: string) {
+        return /^https?:\/\/.+\..+/.test(v);
+      },
+      message: 'Поле link должно содержать корректный URL'
+    }
   },
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'user',
     required: true
   },
-  likes: {
-    type: [Schema.Types.ObjectId],
+  likes: [{
+    type: Schema.Types.ObjectId,
     ref: 'user',
     default: []
-  },
+  }],
   createdAt: {
     type: Date,
     default: Date.now

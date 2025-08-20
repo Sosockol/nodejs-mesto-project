@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -38,6 +38,15 @@ mongoose.connect('mongodb://localhost:27017/mestodb')
   .catch((err: Error) => {
     logger.error('Error connecting to MongoDB:', err);
   });
+
+// Middleware для проверки авторизации
+app.use((req: Request, res: Response, next: NextFunction) => {
+  req.user = {
+    _id: '68a61a36f52078d0045acf03'
+  };
+
+  next();
+});
 
 // Подключение роутов
 app.use(routes);
