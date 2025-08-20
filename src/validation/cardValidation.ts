@@ -15,8 +15,8 @@ export const createCardValidation = celebrate({
   })
 });
 
-// Схема валидации для удаления карточки по ID
-export const deleteCardValidation = celebrate({
+// Схема валидации для операций с карточкой по ID (удаление, лайк, дизлайк)
+export const cardIdValidation = celebrate({
   params: Joi.object().keys({
     cardId: Joi.string().hex().length(24).required().messages({
       'string.hex': 'ID карточки должен быть в формате ObjectId',
@@ -25,3 +25,6 @@ export const deleteCardValidation = celebrate({
     })
   })
 });
+
+// Для обратной совместимости
+export const deleteCardValidation = cardIdValidation;
