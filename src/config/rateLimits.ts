@@ -1,3 +1,5 @@
+import { Request } from 'express';
+
 // Базовая конфигурация для rate limiting
 const baseRateLimitConfig = {
   standardHeaders: true, // Возвращает информацию о лимите в заголовках `RateLimit-*`
