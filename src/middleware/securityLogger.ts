@@ -8,24 +8,22 @@ export const securityLogger = (req: Request, res: Response, next: NextFunction) 
 
   // Логируем подозрительные запросы
   const suspiciousPatterns = [
-    /\.\.\//,  // Path traversal attempts
+    /\.\.\//, // Path traversal attempts
     /<script/i, // XSS attempts
     /union.*select/i, // SQL injection attempts
     /javascript:/i, // JavaScript injection
     /eval\(/i, // Code execution attempts
-    /exec\(/i  // Command execution attempts
+    /exec\(/i, // Command execution attempts
   ];
 
   const requestData = JSON.stringify({
     url: req.url,
     body: req.body,
     query: req.query,
-    headers: req.headers
+    headers: req.headers,
   });
 
-  const isSuspicious = suspiciousPatterns.some(pattern =>
-    pattern.test(requestData)
-  );
+  const isSuspicious = suspiciousPatterns.some((pattern) => pattern.test(requestData));
 
   if (isSuspicious) {
     logger.warn('Suspicious request detected:', {
@@ -35,7 +33,7 @@ export const securityLogger = (req: Request, res: Response, next: NextFunction) 
       url: req.url,
       body: req.body,
       query: req.query,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -49,7 +47,7 @@ export const securityLogger = (req: Request, res: Response, next: NextFunction) 
         method: req.method,
         url: req.url,
         contentLength,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
   }

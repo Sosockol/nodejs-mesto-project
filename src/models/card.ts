@@ -1,4 +1,9 @@
-import { Schema, model, Document, Types } from 'mongoose';
+import {
+  Schema,
+  model,
+  Document,
+  Types,
+} from 'mongoose';
 
 interface ICard extends Document {
   name: string;
@@ -13,32 +18,32 @@ const cardSchema = new Schema<ICard>({
     type: String,
     required: true,
     minlength: 2,
-    maxlength: 30
+    maxlength: 30,
   },
   link: {
     type: String,
     required: true,
     validate: {
-      validator: function(v: string) {
+      validator(v: string) {
         return /^https?:\/\/.+\..+/.test(v);
       },
-      message: 'Поле link должно содержать корректный URL'
-    }
+      message: 'Поле link должно содержать корректный URL',
+    },
   },
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'user',
-    required: true
+    required: true,
   },
   likes: [{
     type: Schema.Types.ObjectId,
     ref: 'user',
-    default: []
+    default: [],
   }],
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 export default model<ICard>('card', cardSchema);

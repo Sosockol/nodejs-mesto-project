@@ -1,6 +1,17 @@
 import { Router } from 'express';
-import { getUsers, getUserById, createUser, updateUser, updateAvatar } from '@controllers';
-import { createUserValidation, getUserByIdValidation, updateUserValidation, updateAvatarValidation } from '@validation';
+import {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  updateAvatar,
+} from '@controllers';
+import {
+  createUserValidation,
+  getUserByIdValidation,
+  updateUserValidation,
+  updateAvatarValidation,
+} from '@validation';
 import { createLimiter } from '@middleware';
 
 const router = Router();

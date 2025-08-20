@@ -10,7 +10,7 @@ export const browserCheck = (req: Request, res: Response, next: NextFunction) =>
   }
 
   // Пропускаем определенные маршруты
-  if (browserConfig.skipRoutes.some(route => req.url.startsWith(route))) {
+  if (browserConfig.skipRoutes.some((route) => req.url.startsWith(route))) {
     return next();
   }
 
@@ -29,7 +29,7 @@ export const browserCheck = (req: Request, res: Response, next: NextFunction) =>
       ip: clientIP,
       userAgent,
       url: req.url,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     return res.status(426).json({
@@ -38,11 +38,11 @@ export const browserCheck = (req: Request, res: Response, next: NextFunction) =>
       supportedBrowsers: {
         'Google Chrome': `${browserConfig.supportedBrowsers.chrome}+`,
         'Mozilla Firefox': `${browserConfig.supportedBrowsers.firefox}+`,
-        'Safari': `${browserConfig.supportedBrowsers.safari}+`,
+        Safari: `${browserConfig.supportedBrowsers.safari}+`,
         'Microsoft Edge': `${browserConfig.supportedBrowsers.edge}+`,
-        'Opera': `${browserConfig.supportedBrowsers.opera}+`
+        Opera: `${browserConfig.supportedBrowsers.opera}+`,
       },
-      downloadLinks: browserConfig.downloadLinks
+      downloadLinks: browserConfig.downloadLinks,
     });
   }
 
@@ -56,7 +56,7 @@ export const browserCheck = (req: Request, res: Response, next: NextFunction) =>
       browser: `${name} ${version}`,
       minRequired: minVersion,
       url: req.url,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     return res.status(426).json({
@@ -65,7 +65,7 @@ export const browserCheck = (req: Request, res: Response, next: NextFunction) =>
       currentVersion: version,
       minimumVersion: minVersion,
       browserName: name,
-      downloadLinks: browserConfig.downloadLinks
+      downloadLinks: browserConfig.downloadLinks,
     });
   }
 
@@ -74,7 +74,7 @@ export const browserCheck = (req: Request, res: Response, next: NextFunction) =>
 
 // Проверка, является ли запрос от API клиента
 function isApiClient(userAgent: string): boolean {
-  return browserConfig.apiClientPatterns.some(pattern => pattern.test(userAgent));
+  return browserConfig.apiClientPatterns.some((pattern) => pattern.test(userAgent));
 }
 
 // Парсинг информации о браузере

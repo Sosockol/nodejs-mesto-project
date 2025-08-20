@@ -14,7 +14,7 @@ export const generalLimiterConfig = {
   windowMs: 15 * 60 * 1000, // 15 минут
   max: process.env.NODE_ENV === 'production' ? 100 : 1000, // строже в продакшене
   message: {
-    message: 'Слишком много запросов с вашего IP, попробуйте позже'
+    message: 'Слишком много запросов с вашего IP, попробуйте позже',
   },
 } as const;
 
@@ -24,7 +24,7 @@ export const createLimiterConfig = {
   windowMs: 15 * 60 * 1000, // 15 минут
   max: process.env.NODE_ENV === 'production' ? 10 : 50, // строже в продакшене
   message: {
-    message: 'Слишком много попыток создания, попробуйте позже'
+    message: 'Слишком много попыток создания, попробуйте позже',
   },
   // Применять лимит только для POST запросов
   skip: (req: Request) => req.method !== 'POST',
@@ -36,7 +36,7 @@ export const authLimiterConfig = {
   windowMs: 15 * 60 * 1000, // 15 минут
   max: process.env.NODE_ENV === 'production' ? 5 : 20, // строже в продакшене
   message: {
-    message: 'Слишком много попыток входа, попробуйте позже'
+    message: 'Слишком много попыток входа, попробуйте позже',
   },
   // Не учитываем успешные попытки
   skipSuccessfulRequests: true,

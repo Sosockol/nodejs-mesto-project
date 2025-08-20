@@ -21,9 +21,9 @@ export const dislikeCard = async (req: Request, res: Response, next: NextFunctio
     const card = await Card.findByIdAndUpdate(
       cardId,
       { $pull: { likes: userId } }, // убрать _id из массива
-      { new: true }
+      { new: true },
     ).populate('owner', 'name about avatar')
-     .populate('likes', 'name');
+      .populate('likes', 'name');
 
     if (!card) {
       return next(new NotFoundError('Карточка не найдена'));

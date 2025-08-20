@@ -25,7 +25,7 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
       error: validationMessage,
       url: req.url,
       method: req.method,
-      body: req.body
+      body: req.body,
     });
 
     return res.status(400).json({ message: validationMessage });
@@ -40,14 +40,14 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
         stack: err.stack,
         url: req.url,
         method: req.method,
-        statusCode: err.statusCode
+        statusCode: err.statusCode,
       });
     } else {
       logger.warn('Client error:', {
         error: err.message,
         url: req.url,
         method: req.method,
-        statusCode: err.statusCode
+        statusCode: err.statusCode,
       });
     }
   } else {
@@ -56,7 +56,7 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
       error: err.message,
       stack: err.stack,
       url: req.url,
-      method: req.method
+      method: req.method,
     });
   }
 

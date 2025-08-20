@@ -3,13 +3,14 @@ import { User } from '@models';
 import { BadRequestError, NotFoundError } from '@errors';
 
 // PATCH /users/me/avatar — обновляет аватар
-export const updateAvatar = async (req: Request, res: Response, next: NextFunction) => {
+export const updateAvatar = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { avatar } = req.body;
     const userId = req.user?._id;
 
     if (!userId) {
-      return next(new BadRequestError('Пользователь не авторизован'));
+      next(new BadRequestError('Пользователь не авторизован'));
+      return;
     }
 
     const user = await User.findByIdAndUpdate(
@@ -17,12 +18,13 @@ export const updateAvatar = async (req: Request, res: Response, next: NextFuncti
       { avatar },
       {
         new: true, // возвращать обновленную запись
-        runValidators: true // запускать валидаторы схемы
-      }
+        runValidators: true, // запускать валидаторы схемы
+      },
     );
 
     if (!user) {
-      return next(new NotFoundError('Пользователь не найден'));
+      next(new NotFoundError('Пользователь не найден'));
+      return;
     }
 
     res.json(user);

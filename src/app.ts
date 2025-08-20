@@ -1,9 +1,24 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, {
+  NextFunction,
+  Request,
+  Response,
+} from 'express';
 import mongoose from 'mongoose';
 import helmet from 'helmet';
 import cors from 'cors';
-import { logger, helmetConfig, corsConfig } from '@config';
-import { errorHandler, notFoundHandler, requestLogger, generalLimiter, securityLogger, browserCheck } from '@middleware';
+import {
+  logger,
+  helmetConfig,
+  corsConfig,
+} from '@config';
+import {
+  errorHandler,
+  notFoundHandler,
+  requestLogger,
+  generalLimiter,
+  securityLogger,
+  browserCheck,
+} from '@middleware';
 import routes from '@routes';
 
 const { PORT = 3000 } = process.env;
@@ -42,7 +57,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb')
 // Middleware для проверки авторизации
 app.use((req: Request, res: Response, next: NextFunction) => {
   req.user = {
-    _id: '68a61a36f52078d0045acf03'
+    _id: '68a61a36f52078d0045acf03',
   };
 
   next();

@@ -1,6 +1,15 @@
 import { Router } from 'express';
-import { getCards, createCard, deleteCard, likeCard, dislikeCard } from '@controllers';
-import { createCardValidation, cardIdValidation } from '@validation';
+import {
+  getCards,
+  createCard,
+  deleteCard,
+  likeCard,
+  dislikeCard,
+} from '@controllers';
+import {
+  createCardValidation,
+  cardIdValidation,
+} from '@validation';
 import { createLimiter } from '@middleware';
 
 const router = Router();

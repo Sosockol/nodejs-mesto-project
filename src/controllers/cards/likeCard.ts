@@ -21,9 +21,9 @@ export const likeCard = async (req: Request, res: Response, next: NextFunction) 
     const card = await Card.findByIdAndUpdate(
       cardId,
       { $addToSet: { likes: userId } }, // добавить _id в массив, если его там нет
-      { new: true }
+      { new: true },
     ).populate('owner', 'name about avatar')
-     .populate('likes', 'name');
+      .populate('likes', 'name');
 
     if (!card) {
       return next(new NotFoundError('Карточка не найдена'));

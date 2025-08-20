@@ -9,14 +9,14 @@ export const browserConfig = {
     firefox: 88,
     safari: 14,
     edge: 90,
-    opera: 76
+    opera: 76,
   },
 
   // Маршруты, которые не проверяются (API endpoints)
   skipRoutes: [
     '/api/',
     '/health',
-    '/metrics'
+    '/metrics',
   ],
 
   // User-Agent паттерны для API клиентов (пропускаются)
@@ -33,13 +33,13 @@ export const browserConfig = {
     /crawler/i,
     /spider/i,
     /googlebot/i,
-    /bingbot/i
+    /bingbot/i,
   ],
 
   // Сообщения об ошибках
   messages: {
     unsupported: 'Неподдерживаемый браузер',
-    outdated: 'Ваш браузер устарел и может работать некорректно'
+    outdated: 'Ваш браузер устарел и может работать некорректно',
   },
 
   // Ссылки для скачивания браузеров
@@ -48,6 +48,6 @@ export const browserConfig = {
     firefox: 'https://www.mozilla.org/firefox/',
     safari: 'https://www.apple.com/safari/',
     edge: 'https://www.microsoft.com/edge',
-    opera: 'https://www.opera.com/'
-  }
+    opera: 'https://www.opera.com/',
+  },
 };

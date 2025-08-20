@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { Card } from '@models';
 
 // GET /cards — возвращает все карточки
-export const getCards = async (req: Request, res: Response, next: NextFunction) => {
+export const getCards = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const cards = await Card.find({})
       .populate('owner', 'name about avatar')

@@ -15,7 +15,7 @@ export const createCard = async (req: Request, res: Response, next: NextFunction
     const card = await Card.create({
       name,
       link,
-      owner: ownerId
+      owner: ownerId,
     });
 
     // Возвращаем карточку с заполненными данными владельца
