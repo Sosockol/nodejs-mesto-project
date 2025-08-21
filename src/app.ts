@@ -1,6 +1,6 @@
 import express, {
   NextFunction,
-  Request,
+  Request as ExpressRequest,
   Response,
 } from 'express';
 import mongoose from 'mongoose';
@@ -20,6 +20,17 @@ import {
   browserCheck,
 } from '@middleware';
 import routes from '@routes';
+
+// Расширение типа Request для добавления свойства user
+declare global {
+  namespace Express {
+    interface Request {
+      user?: {
+        _id: string;
+      };
+    }
+  }
+}
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -55,7 +66,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb')
   });
 
 // Middleware для проверки авторизации
-app.use((req: Request, _: Response, next: NextFunction) => {
+app.use((req: ExpressRequest, _: Response, next: NextFunction) => {
   req.user = {
     _id: '68a61a36f52078d0045acf03',
   };
@@ -65,11 +76,6 @@ app.use((req: Request, _: Response, next: NextFunction) => {
 
 // Подключение роутов
 app.use(routes);
-
-// Базовый маршрут
-app.get('/', (_: Request, res: Response) => {
-  res.json({ message: 'Mesto Backend API' });
-});
 
 // Middleware для обработки ошибок
 app.use(errorHandler);
