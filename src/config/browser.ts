@@ -1,5 +1,5 @@
 // Конфигурация поддерживаемых браузеров
-export const browserConfig = {
+const browserConfig = {
   // Включить/выключить проверку браузеров
   enabled: process.env.NODE_ENV === 'production',
 
@@ -51,3 +51,5 @@ export const browserConfig = {
     opera: 'https://www.opera.com/',
   },
 };
+
+export default browserConfig;

@@ -1,7 +1,7 @@
 import winston from 'winston';
 
 // Настройка Winston логгера
-export const logger = winston.createLogger({
+const logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
     winston.format.timestamp(),
@@ -20,3 +20,5 @@ export const logger = winston.createLogger({
     }),
   ],
 });
+
+export default logger;

@@ -34,13 +34,22 @@
         ]
     },
     "rules": {
-        "import/extensions": [
-            "error",
-            "ignorePackages",
-            {
-                "js": "never",
-                "ts": "never"
-            }
-        ]
+      "import/extensions": [
+          "error",
+          "ignorePackages",
+          {
+              "js": "never",
+              "ts": "never"
+          }
+      ],
+      "no-underscore-dangle": "off",
+      "@typescript-eslint/no-unused-vars": ["error", {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_",
+          "ignoreRestSiblings": true,
+          "args": "after-used",
+          "vars": "all"
+        }],
+      "no-unused-vars": "off"
     }
 }

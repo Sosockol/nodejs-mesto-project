@@ -1,17 +1,58 @@
 import { Request, Response, NextFunction } from 'express';
-import { logger } from '@config';
-import { browserConfig } from '@config/browser';
+import { logger, browserConfig } from '@config';
+
+// Проверка, является ли запрос от API клиента
+function isApiClient(userAgent: string): boolean {
+  return browserConfig.apiClientPatterns.some((pattern) => pattern.test(userAgent));
+}
+
+// Парсинг информации о браузере
+function parseBrowser(userAgent: string): { name: string; version: number } | null {
+  // Chrome (должен быть проверен перед Safari, так как Chrome содержит Safari в UA)
+  let match = userAgent.match(/Chrome\/(\d+)/);
+  if (match && !userAgent.includes('Edge') && !userAgent.includes('OPR')) {
+    return { name: 'chrome', version: parseInt(match[1], 10) };
+  }
+
+  // Edge (новый Chromium Edge)
+  match = userAgent.match(/Edg\/(\d+)/);
+  if (match) {
+    return { name: 'edge', version: parseInt(match[1], 10) };
+  }
+
+  // Firefox
+  match = userAgent.match(/Firefox\/(\d+)/);
+  if (match) {
+    return { name: 'firefox', version: parseInt(match[1], 10) };
+  }
+
+  // Safari (должен быть проверен после Chrome)
+  match = userAgent.match(/Version\/(\d+).*Safari/);
+  if (match && userAgent.includes('Safari') && !userAgent.includes('Chrome')) {
+    return { name: 'safari', version: parseInt(match[1], 10) };
+  }
+
+  // Opera
+  match = userAgent.match(/OPR\/(\d+)/);
+  if (match) {
+    return { name: 'opera', version: parseInt(match[1], 10) };
+  }
+
+  return null;
+}
 
 // Middleware для проверки браузера
-export const browserCheck = (req: Request, res: Response, next: NextFunction) => {
+const browserCheck = (req: Request, res: Response, next: NextFunction): void => {
   // Пропускаем, если проверка отключена
   if (!browserConfig.enabled) {
-    return next();
+    next();
+    return;
   }
 
   // Пропускаем определенные маршруты
   if (browserConfig.skipRoutes.some((route) => req.url.startsWith(route))) {
-    return next();
+    next();
+    return;
   }
 
   const userAgent = req.get('User-Agent') || '';
@@ -19,7 +60,8 @@ export const browserCheck = (req: Request, res: Response, next: NextFunction) =>
 
   // Пропускаем API клиенты и боты
   if (isApiClient(userAgent)) {
-    return next();
+    next();
+    return;
   }
 
   const browserInfo = parseBrowser(userAgent);
@@ -32,7 +74,7 @@ export const browserCheck = (req: Request, res: Response, next: NextFunction) =>
       timestamp: new Date().toISOString(),
     });
 
-    return res.status(426).json({
+    res.status(426).json({
       message: browserConfig.messages.unsupported,
       error: 'UNSUPPORTED_BROWSER',
       supportedBrowsers: {
@@ -44,10 +86,13 @@ export const browserCheck = (req: Request, res: Response, next: NextFunction) =>
       },
       downloadLinks: browserConfig.downloadLinks,
     });
+    return;
   }
 
   const { name, version } = browserInfo;
-  const minVersion = browserConfig.supportedBrowsers[name as keyof typeof browserConfig.supportedBrowsers];
+  const minVersion = browserConfig.supportedBrowsers[
+    name as keyof typeof browserConfig.supportedBrowsers
+  ];
 
   if (minVersion && version < minVersion) {
     logger.warn('Outdated browser detected:', {
@@ -59,7 +104,7 @@ export const browserCheck = (req: Request, res: Response, next: NextFunction) =>
       timestamp: new Date().toISOString(),
     });
 
-    return res.status(426).json({
+    res.status(426).json({
       message: `${browserConfig.messages.outdated}: ${name} ${version}`,
       error: 'BROWSER_OUTDATED',
       currentVersion: version,
@@ -67,47 +112,10 @@ export const browserCheck = (req: Request, res: Response, next: NextFunction) =>
       browserName: name,
       downloadLinks: browserConfig.downloadLinks,
     });
+    return;
   }
 
   next();
 };
 
-// Проверка, является ли запрос от API клиента
-function isApiClient(userAgent: string): boolean {
-  return browserConfig.apiClientPatterns.some((pattern) => pattern.test(userAgent));
-}
-
-// Парсинг информации о браузере
-function parseBrowser(userAgent: string): { name: string; version: number } | null {
-  // Chrome (должен быть проверен перед Safari, так как Chrome содержит Safari в UA)
-  let match = userAgent.match(/Chrome\/(\d+)/);
-  if (match && !userAgent.includes('Edge') && !userAgent.includes('OPR')) {
-    return { name: 'chrome', version: parseInt(match[1]) };
-  }
-
-  // Edge (новый Chromium Edge)
-  match = userAgent.match(/Edg\/(\d+)/);
-  if (match) {
-    return { name: 'edge', version: parseInt(match[1]) };
-  }
-
-  // Firefox
-  match = userAgent.match(/Firefox\/(\d+)/);
-  if (match) {
-    return { name: 'firefox', version: parseInt(match[1]) };
-  }
-
-  // Safari (должен быть проверен после Chrome)
-  match = userAgent.match(/Version\/(\d+).*Safari/);
-  if (match && userAgent.includes('Safari') && !userAgent.includes('Chrome')) {
-    return { name: 'safari', version: parseInt(match[1]) };
-  }
-
-  // Opera
-  match = userAgent.match(/OPR\/(\d+)/);
-  if (match) {
-    return { name: 'opera', version: parseInt(match[1]) };
-  }
-
-  return null;
-}
+export default browserCheck;

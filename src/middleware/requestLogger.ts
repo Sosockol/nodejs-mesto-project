@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { logger } from '@config';
 
 // Middleware для логирования запросов
-export const requestLogger = (req: Request, res: Response, next: NextFunction) => {
+const requestLogger = (req: Request, _: Response, next: NextFunction) => {
   logger.info(`${req.method} ${req.url}`, {
     method: req.method,
     url: req.url,
@@ -11,3 +11,5 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction) =
   });
   next();
 };
+
+export default requestLogger;

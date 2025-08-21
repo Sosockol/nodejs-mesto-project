@@ -3,7 +3,11 @@ import { User } from '@models';
 import { BadRequestError, NotFoundError } from '@errors';
 
 // PATCH /users/me/avatar — обновляет аватар
-export const updateAvatar = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const updateAvatar = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { avatar } = req.body;
     const userId = req.user?._id;
@@ -36,3 +40,5 @@ export const updateAvatar = async (req: Request, res: Response, next: NextFuncti
     }
   }
 };
+
+export default updateAvatar;

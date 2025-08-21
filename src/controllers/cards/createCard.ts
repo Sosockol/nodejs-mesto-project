@@ -3,13 +3,18 @@ import { Card } from '@models';
 import { BadRequestError } from '@errors';
 
 // POST /cards — создаёт карточку
-export const createCard = async (req: Request, res: Response, next: NextFunction) => {
+const createCard = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { name, link } = req.body;
     const ownerId = req.user?._id;
 
     if (!ownerId) {
-      return next(new BadRequestError('Пользователь не авторизован'));
+      next(new BadRequestError('Пользователь не авторизован'));
+      return;
     }
 
     const card = await Card.create({
@@ -31,3 +36,5 @@ export const createCard = async (req: Request, res: Response, next: NextFunction
     }
   }
 };
+
+export default createCard;

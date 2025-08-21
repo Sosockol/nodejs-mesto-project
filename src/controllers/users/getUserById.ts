@@ -4,7 +4,11 @@ import { NotFoundError, BadRequestError } from '@errors';
 import { Types } from 'mongoose';
 
 // GET /users/:userId — возвращает пользователя по _id
-export const getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const getUserById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { userId } = req.params;
 
@@ -25,3 +29,5 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
     next(error);
   }
 };
+
+export default getUserById;

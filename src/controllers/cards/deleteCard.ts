@@ -4,30 +4,38 @@ import { NotFoundError, ForbiddenError, BadRequestError } from '@errors';
 import { Types } from 'mongoose';
 
 // DELETE /cards/:cardId — удаляет карточку по идентификатору
-export const deleteCard = async (req: Request, res: Response, next: NextFunction) => {
+const deleteCard = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { cardId } = req.params;
     const userId = req.user?._id;
 
     if (!userId) {
-      return next(new BadRequestError('Пользователь не авторизован'));
+      next(new BadRequestError('Пользователь не авторизован'));
+      return;
     }
 
     // Проверяем, что cardId является валидным ObjectId
     if (!Types.ObjectId.isValid(cardId)) {
-      return next(new BadRequestError('Некорректный идентификатор карточки'));
+      next(new BadRequestError('Некорректный идентификатор карточки'));
+      return;
     }
 
     // Находим карточку
     const card = await Card.findById(cardId);
 
     if (!card) {
-      return next(new NotFoundError('Карточка не найдена'));
+      next(new NotFoundError('Карточка не найдена'));
+      return;
     }
 
     // Проверяем, что пользователь является владельцем карточки
     if (card.owner.toString() !== userId) {
-      return next(new ForbiddenError('Недостаточно прав для удаления карточки'));
+      next(new ForbiddenError('Недостаточно прав для удаления карточки'));
+      return;
     }
 
     // Удаляем карточку
@@ -38,3 +46,5 @@ export const deleteCard = async (req: Request, res: Response, next: NextFunction
     next(error);
   }
 };
+
+export default deleteCard;

@@ -55,7 +55,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb')
   });
 
 // Middleware для проверки авторизации
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req: Request, _: Response, next: NextFunction) => {
   req.user = {
     _id: '68a61a36f52078d0045acf03',
   };
@@ -67,7 +67,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use(routes);
 
 // Базовый маршрут
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (_: Request, res: Response) => {
   res.json({ message: 'Mesto Backend API' });
 });
 

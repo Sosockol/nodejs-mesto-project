@@ -1,4 +1,4 @@
-export { logger } from './logger';
+export { default as logger } from './logger';
 export { helmetConfig, corsConfig } from './security';
 export { generalLimiterConfig, createLimiterConfig, authLimiterConfig } from './rateLimits';
-export { browserConfig } from './browser';
+export { default as browserConfig } from './browser';

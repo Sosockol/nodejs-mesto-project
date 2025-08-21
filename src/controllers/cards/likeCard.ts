@@ -4,18 +4,20 @@ import { BadRequestError, NotFoundError } from '@errors';
 import { Types } from 'mongoose';
 
 // PUT /cards/:cardId/likes — поставить лайк карточке
-export const likeCard = async (req: Request, res: Response, next: NextFunction) => {
+const likeCard = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { cardId } = req.params;
     const userId = req.user?._id;
 
     if (!userId) {
-      return next(new BadRequestError('Пользователь не авторизован'));
+      next(new BadRequestError('Пользователь не авторизован'));
+      return;
     }
 
     // Проверяем, что cardId является валидным ObjectId
     if (!Types.ObjectId.isValid(cardId)) {
-      return next(new BadRequestError('Некорректный идентификатор карточки'));
+      next(new BadRequestError('Некорректный идентификатор карточки'));
+      return;
     }
 
     const card = await Card.findByIdAndUpdate(
@@ -26,7 +28,8 @@ export const likeCard = async (req: Request, res: Response, next: NextFunction) 
       .populate('likes', 'name');
 
     if (!card) {
-      return next(new NotFoundError('Карточка не найдена'));
+      next(new NotFoundError('Карточка не найдена'));
+      return;
     }
 
     res.json(card);
@@ -34,3 +37,5 @@ export const likeCard = async (req: Request, res: Response, next: NextFunction) 
     next(error);
   }
 };
+
+export default likeCard;

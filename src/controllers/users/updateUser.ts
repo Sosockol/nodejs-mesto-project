@@ -3,7 +3,11 @@ import { User } from '@models';
 import { BadRequestError, NotFoundError } from '@errors';
 
 // PATCH /users/me — обновляет профиль
-export const updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const updateUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { name, about } = req.body;
     const userId = req.user?._id;
@@ -36,3 +40,5 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
     }
   }
 };
+
+export default updateUser;

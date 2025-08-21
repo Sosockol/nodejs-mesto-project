@@ -1,5 +1,5 @@
-export { getUsers } from './getUsers';
-export { getUserById } from './getUserById';
-export { createUser } from './createUser';
-export { updateUser } from './updateUser';
-export { updateAvatar } from './updateAvatar';
+export { default as getUsers } from './getUsers';
+export { default as getUserById } from './getUserById';
+export { default as createUser } from './createUser';
+export { default as updateUser } from './updateUser';
+export { default as updateAvatar } from './updateAvatar';

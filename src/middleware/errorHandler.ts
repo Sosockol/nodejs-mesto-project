@@ -4,7 +4,12 @@ import { logger } from '@config';
 import { AppError } from '@errors';
 
 // Middleware для обработки ошибок
-export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
+export const errorHandler = (
+  err: Error,
+  req: Request,
+  res: Response,
+  _next: NextFunction,
+): void => {
   // Обработка ошибок валидации celebrate
   if (isCelebrateError(err)) {
     const errorBody = err.details.get('body');
@@ -28,7 +33,8 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
       body: req.body,
     });
 
-    return res.status(400).json({ message: validationMessage });
+    res.status(400).json({ message: validationMessage });
+    return;
   }
 
   // Логируем ошибку
@@ -68,7 +74,7 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
 };
 
 // Middleware для обработки 404
-export const notFoundHandler = (req: Request, res: Response) => {
+export const notFoundHandler = (req: Request, res: Response): void => {
   logger.warn(`404 - Resource not found: ${req.method} ${req.url}`);
   res.status(404).json({ message: 'Requested resource not found' });
 };

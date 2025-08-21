@@ -1,5 +1,5 @@
 export { errorHandler, notFoundHandler } from './errorHandler';
-export { requestLogger } from './requestLogger';
+export { default as requestLogger } from './requestLogger';
 export { generalLimiter, createLimiter, authLimiter } from './rateLimiter';
-export { securityLogger } from './securityLogger';
-export { browserCheck } from './browserCheck';
+export { default as securityLogger } from './securityLogger';
+export { default as browserCheck } from './browserCheck';
