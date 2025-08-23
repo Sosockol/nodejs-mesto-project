@@ -44,6 +44,8 @@ const cardSchema = new Schema<ICard>({
     type: Date,
     default: Date.now,
   },
+}, {
+  versionKey: false, // Отключаем отслеживание версии
 });
 
 export default model<ICard>('card', cardSchema);

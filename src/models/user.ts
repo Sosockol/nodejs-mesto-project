@@ -29,12 +29,16 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
     unique: true,
+    lowercase: true, // Нормализация к нижнему регистру
+    trim: true,      // Удаление пробелов
   },
   password: {
     type: String,
     required: true,
     select: false,
   },
+}, {
+  versionKey: false, // Отключаем отслеживание версии
 });
 
 export default model<IUser>('user', userSchema);

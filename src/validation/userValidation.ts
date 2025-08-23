@@ -20,10 +20,15 @@ export const registerUserValidation = celebrate({
       'string.email': 'Поле "email" должно содержать корректный адрес электронной почты',
       'any.required': 'Поле "email" обязательно для заполнения',
     }),
-    password: Joi.string().min(6).required().messages({
-      'string.min': 'Пароль должен содержать минимум 6 символов',
-      'any.required': 'Поле "password" обязательно для заполнения',
-    }),
+    password: Joi.string()
+      .min(6)
+      .max(50)
+      .required()
+      .messages({
+        'string.min': 'Пароль должен содержать минимум 6 символов',
+        'string.max': 'Пароль не должен превышать 50 символов',
+        'any.required': 'Поле "password" обязательно для заполнения',
+      }),
   }),
 });
 
