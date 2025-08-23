@@ -7,12 +7,10 @@ import {
   getCurrentUser,
 } from '@controllers';
 import {
-  createUserValidation,
   getUserByIdValidation,
   updateUserValidation,
   updateAvatarValidation,
 } from '@validation';
-import { createLimiter } from '@middleware';
 
 const router = Router();
 

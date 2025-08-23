@@ -45,36 +45,6 @@ export const loginUserValidation = celebrate({
   }),
 });
 
-// Схема валидации для создания пользователя (обновленная)
-export const createUserValidation = celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30).required()
-      .messages({
-        'string.min': 'Имя должно содержать минимум 2 символа',
-        'string.max': 'Имя не должно превышать 30 символов',
-        'any.required': 'Поле "name" обязательно для заполнения',
-      }),
-    about: Joi.string().min(2).max(200).required()
-      .messages({
-        'string.min': 'Описание должно содержать минимум 2 символа',
-        'string.max': 'Описание не должно превышать 200 символов',
-        'any.required': 'Поле "about" обязательно для заполнения',
-      }),
-    avatar: Joi.string().uri().required().messages({
-      'string.uri': 'Поле "avatar" должно содержать корректный URL',
-      'any.required': 'Поле "avatar" обязательно для заполнения',
-    }),
-    email: Joi.string().email().required().messages({
-      'string.email': 'Поле "email" должно содержать корректный адрес электронной почты',
-      'any.required': 'Поле "email" обязательно для заполнения',
-    }),
-    password: Joi.string().min(6).required().messages({
-      'string.min': 'Пароль должен содержать минимум 6 символов',
-      'any.required': 'Поле "password" обязательно для заполнения',
-    }),
-  }),
-});
-
 // Схема валидации для получения пользователя по ID
 export const getUserByIdValidation = celebrate({
   params: Joi.object().keys({
