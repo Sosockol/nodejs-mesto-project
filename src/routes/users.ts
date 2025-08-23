@@ -2,7 +2,6 @@ import { Router } from 'express';
 import {
   getUsers,
   getUserById,
-  createUser,
   updateUser,
   updateAvatar,
   getCurrentUser,
@@ -96,40 +95,6 @@ router.get('/me', getCurrentUser);
  */
 // GET /users/:userId — возвращает пользователя по _id
 router.get('/:userId', getUserByIdValidation, getUserById);
-
-/**
- * @swagger
- * /users:
- *   post:
- *     summary: Создать нового пользователя
- *     description: Создает нового пользователя в системе
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/CreateUserRequest'
- *     responses:
- *       201:
- *         description: Пользователь успешно создан
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       400:
- *         $ref: '#/components/responses/ValidationError'
- *       409:
- *         description: Пользователь уже существует
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       500:
- *         $ref: '#/components/responses/InternalServerError'
- */
-// POST /users — создаёт пользователя (с дополнительным ограничением скорости)
-router.post('/', createLimiter, createUserValidation, createUser);
 
 /**
  * @swagger
