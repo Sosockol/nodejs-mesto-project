@@ -10,6 +10,9 @@ import {
   logger,
   helmetConfig,
   corsConfig,
+  swaggerSpec,
+  swaggerUi,
+  swaggerUiOptions,
 } from '@config';
 import {
   errorHandler,
@@ -56,6 +59,9 @@ app.use(requestLogger);
 // Middleware для логирования событий безопасности
 app.use(securityLogger);
 
+// Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOptions));
+
 // Подключение к MongoDB
 mongoose.connect('mongodb://localhost:27017/mestodb')
   .then(() => {
@@ -86,6 +92,7 @@ app.use(notFoundHandler);
 // Запуск сервера
 app.listen(PORT, () => {
   logger.info(`App listening on port ${PORT}`);
+  logger.info(`Swagger documentation available at http://localhost:${PORT}/api-docs`);
 });
 
 export default app;
