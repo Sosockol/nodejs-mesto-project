@@ -5,6 +5,7 @@ import {
   createUser,
   updateUser,
   updateAvatar,
+  getCurrentUser,
 } from '@controllers';
 import {
   createUserValidation,
@@ -37,6 +38,32 @@ const router = Router();
  */
 // GET /users — возвращает всех пользователей
 router.get('/', getUsers);
+
+/**
+ * @swagger
+ * /users/me:
+ *   get:
+ *     summary: Получить информацию о текущем пользователе
+ *     description: Возвращает информацию о текущем авторизованном пользователе
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Информация о пользователе успешно получена
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServerError'
+ */
+// GET /users/me — возвращает информацию о текущем пользователе
+router.get('/me', getCurrentUser);
 
 /**
  * @swagger
