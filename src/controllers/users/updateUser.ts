@@ -10,7 +10,7 @@ const updateUser = async (
 ): Promise<void> => {
   try {
     const { name, about } = req.body;
-    const userId = req.user?._id;
+    const userId = res.locals.user?._id;
 
     if (!userId) {
       next(new BadRequestError('Пользователь не авторизован'));

@@ -10,7 +10,7 @@ const createCard = async (
 ): Promise<void> => {
   try {
     const { name, link } = req.body;
-    const ownerId = req.user?._id;
+    const ownerId = res.locals.user?._id;
 
     if (!ownerId) {
       next(new BadRequestError('Пользователь не авторизован'));

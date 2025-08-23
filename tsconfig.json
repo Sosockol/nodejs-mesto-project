@@ -22,7 +22,9 @@
       "@utils/*": ["./utils/*"],
       "@utils": ["./utils/index"],
       "@validation/*": ["./validation/*"],
-      "@validation": ["./validation/index"]
+      "@validation": ["./validation/index"],
+      "@types/*": ["./types/*"],
+      "@types": ["./types/index"]
     },
     "moduleResolution": "node",                       /* Specify how TypeScript looks up a file from a given module specifier. */
     /* JavaScript Support */

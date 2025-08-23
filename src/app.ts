@@ -1,8 +1,4 @@
-import express, {
-  NextFunction,
-  Request as ExpressRequest,
-  Response,
-} from 'express';
+import express from 'express';
 import mongoose from 'mongoose';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -23,17 +19,6 @@ import {
   browserCheck,
 } from '@middleware';
 import routes from '@routes';
-
-// Расширение типа Request для добавления свойства user
-declare global {
-  namespace Express {
-    interface Request {
-      user?: {
-        _id: string;
-      };
-    }
-  }
-}
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -70,15 +55,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb')
   .catch((err: Error) => {
     logger.error('Error connecting to MongoDB:', err);
   });
-
-// Middleware для проверки авторизации
-app.use((req: ExpressRequest, _: Response, next: NextFunction) => {
-  req.user = {
-    _id: '68a61a36f52078d0045acf03',
-  };
-
-  next();
-});
 
 // Подключение роутов
 app.use(routes);

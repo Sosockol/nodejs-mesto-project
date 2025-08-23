@@ -1,6 +1,46 @@
 import { celebrate, Joi } from 'celebrate';
 
-// Схема валидации для создания пользователя
+// Схема валидации для регистрации пользователя
+export const registerUserValidation = celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().min(2).max(30).optional()
+      .messages({
+        'string.min': 'Имя должно содержать минимум 2 символа',
+        'string.max': 'Имя не должно превышать 30 символов',
+      }),
+    about: Joi.string().min(2).max(200).optional()
+      .messages({
+        'string.min': 'Описание должно содержать минимум 2 символа',
+        'string.max': 'Описание не должно превышать 200 символов',
+      }),
+    avatar: Joi.string().uri().optional().messages({
+      'string.uri': 'Поле "avatar" должно содержать корректный URL',
+    }),
+    email: Joi.string().email().required().messages({
+      'string.email': 'Поле "email" должно содержать корректный адрес электронной почты',
+      'any.required': 'Поле "email" обязательно для заполнения',
+    }),
+    password: Joi.string().min(6).required().messages({
+      'string.min': 'Пароль должен содержать минимум 6 символов',
+      'any.required': 'Поле "password" обязательно для заполнения',
+    }),
+  }),
+});
+
+// Схема валидации для авторизации пользователя
+export const loginUserValidation = celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().email().required().messages({
+      'string.email': 'Поле "email" должно содержать корректный адрес электронной почты',
+      'any.required': 'Поле "email" обязательно для заполнения',
+    }),
+    password: Joi.string().required().messages({
+      'any.required': 'Поле "password" обязательно для заполнения',
+    }),
+  }),
+});
+
+// Схема валидации для создания пользователя (обновленная)
 export const createUserValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required()
@@ -18,6 +58,14 @@ export const createUserValidation = celebrate({
     avatar: Joi.string().uri().required().messages({
       'string.uri': 'Поле "avatar" должно содержать корректный URL',
       'any.required': 'Поле "avatar" обязательно для заполнения',
+    }),
+    email: Joi.string().email().required().messages({
+      'string.email': 'Поле "email" должно содержать корректный адрес электронной почты',
+      'any.required': 'Поле "email" обязательно для заполнения',
+    }),
+    password: Joi.string().min(6).required().messages({
+      'string.min': 'Пароль должен содержать минимум 6 символов',
+      'any.required': 'Поле "password" обязательно для заполнения',
     }),
   }),
 });

@@ -7,7 +7,7 @@ import { Types } from 'mongoose';
 const likeCard = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { cardId } = req.params;
-    const userId = req.user?._id;
+    const userId = res.locals.user?._id;
 
     if (!userId) {
       next(new BadRequestError('Пользователь не авторизован'));

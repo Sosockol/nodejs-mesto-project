@@ -3,3 +3,5 @@ export { default as getUserById } from './getUserById';
 export { default as createUser } from './createUser';
 export { default as updateUser } from './updateUser';
 export { default as updateAvatar } from './updateAvatar';
+export { default as register } from './register';
+export { default as login } from './login';
