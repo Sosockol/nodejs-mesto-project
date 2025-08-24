@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Card } from '@models';
 import { BadRequestError, NotFoundError } from '@errors';
-import { Types } from 'mongoose';
 
 // DELETE /cards/:cardId/likes — убрать лайк с карточки
 const dislikeCard = async (
@@ -15,12 +14,6 @@ const dislikeCard = async (
 
     if (!userId) {
       next(new BadRequestError('Пользователь не авторизован'));
-      return;
-    }
-
-    // Проверяем, что cardId является валидным ObjectId
-    if (!Types.ObjectId.isValid(cardId)) {
-      next(new BadRequestError('Некорректный идентификатор карточки'));
       return;
     }
 

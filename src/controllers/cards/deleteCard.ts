@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Card } from '@models';
-import { NotFoundError, ForbiddenError, BadRequestError } from '@errors';
-import { Types } from 'mongoose';
+import { NotFoundError, ForbiddenError } from '@errors';
 
 // DELETE /cards/:cardId — удаляет карточку по идентификатору
 const deleteCard = async (
@@ -14,13 +13,7 @@ const deleteCard = async (
     const userId = res.locals.user?._id;
 
     if (!userId) {
-      next(new BadRequestError('Пользователь не авторизован'));
-      return;
-    }
-
-    // Проверяем, что cardId является валидным ObjectId
-    if (!Types.ObjectId.isValid(cardId)) {
-      next(new BadRequestError('Некорректный идентификатор карточки'));
+      next(new ForbiddenError('Пользователь не авторизован'));
       return;
     }
 

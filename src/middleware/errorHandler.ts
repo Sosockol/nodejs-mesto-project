@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { isCelebrateError } from 'celebrate';
 import { logger } from '@config';
-import { AppError } from '@errors';
+import { AppError, NotFoundError } from '@errors';
 
 // Middleware для обработки ошибок
 export const errorHandler = (
@@ -74,7 +74,7 @@ export const errorHandler = (
 };
 
 // Middleware для обработки 404
-export const notFoundHandler = (req: Request, res: Response): void => {
+export const notFoundHandler = (req: Request, _: Response, next: NextFunction): void => {
   logger.warn(`404 - Resource not found: ${req.method} ${req.url}`);
-  res.status(404).json({ message: 'Requested resource not found' });
+  next(new NotFoundError('Маршрут не найден'));
 };

@@ -1,24 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { Card } from '@models';
-import { BadRequestError, NotFoundError } from '@errors';
-import { Types } from 'mongoose';
+import { NotFoundError } from '@errors';
 
 // PUT /cards/:cardId/likes — поставить лайк карточке
 const likeCard = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { cardId } = req.params;
     const userId = res.locals.user?._id;
-
-    if (!userId) {
-      next(new BadRequestError('Пользователь не авторизован'));
-      return;
-    }
-
-    // Проверяем, что cardId является валидным ObjectId
-    if (!Types.ObjectId.isValid(cardId)) {
-      next(new BadRequestError('Некорректный идентификатор карточки'));
-      return;
-    }
 
     const card = await Card.findByIdAndUpdate(
       cardId,
